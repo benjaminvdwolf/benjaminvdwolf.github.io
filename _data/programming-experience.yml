@@ -1,0 +1,23 @@
+- name: C#
+  percentage: 90
+  color: danger
+
+- name: Javascript
+  percentage: 50
+  color: warning
+
+- name: PHP
+  percentage: 40
+  color: success
+
+- name: C
+  percentage: 30
+  color: info
+
+- name: Kotlin
+  percentage: 20
+  color: secondary
+
+- name: Java
+  percentage: 20
+  color: secondary

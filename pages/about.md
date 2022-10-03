@@ -9,9 +9,9 @@ weight: 3
 
 Hi my name is **{{ site.author.name }}** :wave:,<br>
 
-I am an IT and Tech :computer: enthusiast, graduated from the University Of Applied Sciences in Amsterdam starting a new study at Codam - Amsterdam.
+I am an IT and Tech :computer: enthusiast, graduated from the University Of Applied Sciences in Amsterdam studying software engineering at [Codam](https://www.codam.nl/en/) in Amsterdam.
 
-I am a skilled independent worker with an experienced team mindset from having worked at ING on Virtual Reality, Networking and Communication of Quantum Technology through gamification and as Technical Architect and Sublead Unity Developer at DTT - Amsterdam.
+I am a skilled independent worker with an experienced team mindset from having worked at ING Amsterdam on Virtual Reality, Networking and Communication of Quantum Technology through gamification and as Technical Architect and Sublead Unity Developer at DTT - Amsterdam.
 
 In my free time i like to:
 1. Work out :muscle:
@@ -22,8 +22,8 @@ In my free time i like to:
 
 
 <div class="row">
-{% include about/skills.html title="Programming Skills" source=site.data.programming-skills %}
-{% include about/skills.html title="Other Skills" source=site.data.other-skills %}
+{% include about/skills.html title="Programming" source=site.data.programming-experience %}
+{% include about/skills.html title="Development" source=site.data.development-skills %}
 </div>
 
 <div class="row">

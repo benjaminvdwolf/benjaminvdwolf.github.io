@@ -1,0 +1,19 @@
+- name: Game Development
+  percentage: 90
+  color: danger
+
+- name: UML
+  percentage: 70
+  color: warning
+
+- name: Version Control
+  percentage: 60
+  color: success
+
+- name: Web 
+  percentage: 50 
+  color: info
+
+- name: Workflow Methodologies (Scrum/Kanban)
+  percentage: 50
+  color: secondary
