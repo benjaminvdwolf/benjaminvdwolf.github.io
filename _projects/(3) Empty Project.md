@@ -1,7 +1,7 @@
 ---
-name: Empty Project
-tools: [Node JS, JavaScript, HTML, CSS]
+name: Unity Design Patterns
+tools: [Unity, C#]
 image:
-description: This project has no image or showcase page, but it is still a beautiful project inside out!
-external_url: https://github.com/YoussefRaafatNasry
+description:  Multiple examples of design patterns usable in the Unity Game Engine.
+external_url: https://github.com/Bvanderwolf/Unity-Design-Patterns
 ---
