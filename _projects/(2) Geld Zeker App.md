@@ -1,5 +1,5 @@
 ---
-name: The Movies Project
+name: Geld Zeker App
 tools: [C#, Unity, Mobile]
 image: ../assets/img/projects/geld_zeker.jpg
 description: Combining Art, Law, Communication, Social and IT studies we worked to create a mobile application that could help immagrants during their integration in dutch society.
