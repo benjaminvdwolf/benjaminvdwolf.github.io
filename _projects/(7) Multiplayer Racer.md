@@ -17,5 +17,5 @@ During the project I researched a variety of subjects:
 - 2D Game Development in Unity
 
 <p class="text-center">
-{% include elements/button.html link="https://bvanderwolf.github.io/pages/UnityNetworkingResearch.html" text="Read full article" %}
+{% include elements/button.html link="../blog/creating-a-2d-multiplayer-game" text="Read full article" %}
 </p>
