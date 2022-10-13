@@ -275,5 +275,131 @@ Now that my first iteration of my car-synchronization code is finished I can add
 
 **Car Boosting**
 
-After working for a few hours on car boosts I noticed that the speed became a problem for synchronization. At higher speeds, the car would be too far behind the remote car causing desync problems. Currently I don't send velocity in my state synchronization, since cars move mostly at the same time, all the time. Now that I have boosts, the car 's speed can fluctuate very quickly and frequently. I can manage this by adding the same technique(dead reckoning algorithm) as I did with snapshot interpolation where I added the velocity times the lagg, to the remote position (see Figure 18).
+After working for a few hours on car boosts I noticed that the speed became a problem for synchronization. At higher speeds, the car would be too far behind the remote car causing desync problems. Currently I don't send velocity in my state synchronization, since cars move mostly at the same time, all the time. Now that I have boosts, the car 's speed can fluctuate very quickly and frequently. I can manage this by adding the same technique(dead reckoning algorithm) as I did with snapshot interpolation where I added the velocity times the lagg, to the remote position.
 
+**Without lag**
+![state_sync_velocity_no_lag](../assets/gif/blog/2d-multiplayer-game/state_sync_velocity.gif)
+
+**With lag**
+![state_sync_velocity_lag](../assets/gif/blog/2d-multiplayer-game/state_sync_velocity_lag.gif)
+
+Now that i have incorporated velocity into my remote position of the car, i have a better approximation of where it actually is, this means the shadow will appear more frequently since i won’t be at the exact position each time because of the delay. I now have to adapt my linear interpolation in a way that it adapts its speed based on some network related value.
+
+## Collision problems
+
+Another problem is that ,with that speed, the errors after collisions need to be corrected very fast. Otherwise, even with a good connection, the remote car and the car on our client will be off by too much and I would need to teleport it which i don't want. To mitigate this I want to send a colliding flag. This colliding flag tells the other client if it is colliding or not. If the remote car is colliding, I can increase my linear interpolation speed to try and compensate for the indifferences that may occur.
+
+Thinking about these 2 things i came up with this:
+```c#
+float renderFrame = 1 / 60f;
+float delta = Time.deltaTime + (renderFrame * lag) + (remoteCollision ? renderFrame : 0);
+
+// Correct errors by delayed remote input by linear interpolation towards remote position and rotation.
+RB.position = Vector2.Lerp(RB.position, remotePosition, delta);
+RB.rotation = Mathf.Lerp(RB.rotation, remoteRotation, delta);
+```
+
+**Without lag**
+![state_sync_remotecollision_no_lag](../assets/gif/blog/2d-multiplayer-game/state_sync_remotecollision_no_lag.gif)
+
+**With lag**
+![state_sync_remotecollision_lag](../assets/gif/blog/2d-multiplayer-game/state_sync_remoteCollision_lag.gif)
+
+he result was already a lot better. Without real network interference, the car would mostly stay on top of the shadow car, even after collision. The problem however, is that the amount of desync created by simulated network interference is way too high. I also still had the problem of collisions pretty much destroying synchronization of the car. Since the remote car will never be at the exact location of impact at the same time as the true car, the simulation itself will be a lot different, this error margin will get even bigger when the speed of the car is increased. To Fix this I have to make sure that the car, even with high speed, would be as close to the remote car as possible.
+
+After testing my new setup with another student I got feedback on my new synchronization. One of the things I had not tried yet was linear interpolation based on distance between position and remote position. One of the things I also had to accept was that my send rate would need to be a lot higher to make the simulation more accurate. According to Photon Network documentation, Send Rate is defined as the amount of packages sent per second. In addition to Send Rate there is another value called Serialization Rate, which is defined as the amount of time the OnSerialize Function is called(this is used to send and receive data).
+
+## Creating the Final solution
+
+I realized the linear interpolation I had always had in my Fixed Update could be moved towards the Update so the linear interpolation would happen more frequently:
+
+```c#
+private void Update()
+{
+	if (!PV.IsMine)
+	{
+		// Correct car simulation during game frames.
+		CorrectCarSimulation();
+	}
+}
+```
+
+In the linear interpolation I base my interpolation speed of movement on the distance between position and remote position and for rotation based on the angle between rotation and remote rotation. Render time is replaced by tick time because I realized i am linearly interpolating based on server ticks (time between serialization) and not render ticks (Time.deltaTime/ time between render frames).
+
+```c#
+// Linearly Interpolates between position and remote position.
+private void CorrectCarSimulation()
+{
+	// Define tick time (seconds between serialization).
+	float tickTime = 1f / PhotonNetwork.SerializationRate;
+
+	// Define if distance or angle needs catching up.
+	bool distanceCatchup = distanceToRemote > MAX_REMOTE_DISTANCE;
+	bool angleCatchUp = angleToRemote > MAX_REMOTE_ANGLE;
+
+	// Define move delta and angle based on distance/angle to remote car, times the tick time.
+	float moveDelta = (distanceToRemote * tickTime);
+	float rotateDelta = (angleToRemote * tickTime);
+
+	// Define our actual max move and rotate deltas based on if we need to catch up or not.
+	float maxMoveDelta = (distanceCatchup ? movedelta * positionCatchupFactor : movedelta);
+	float maxRotateDelta = (angleCatchUp ? rotateDelta * angleCatchupFactor : rotateDelta);
+
+	// Do the linear interpolation given our maximum distance and angle deltas.
+	RB.position = Vector2.MoveTowards(RB.position, remotePosition, maxMoveDelta);
+	RB.rotation = Mathf.MoveTowards(RB.rotation, remoteRotation, maxRotateDelta);
+}
+```
+
+After receiving a new snapshot and updating all my data, I also check if my car is catching up in some way. If the car is catching up and the remote collision flag is true, it is essential to snap the car to its new position to make sure no further deviation from the true simulation occurs.
+
+```c#
+remotePosition =(Vector2)stream.ReceiveNext();
+remoteRotation = (float) stream.ReceiveNext();
+remotePosition += (Vector2)stream.ReceiveNext() * lag;
+remoteRotation += (float)stream.ReceiveNext() * lag;
+remoteCollision = (bool)stream.ReceiveNext();
+
+distanceToRemote = (remotePosition - RB.position).magnitude;
+positionCatchupFactor = 1 + (distanceToRemte - MAX_REMOTE_DISTANCE);
+
+angleToRemote = Mathf.Abs(remoteRotation - RB.rotation);
+angleCatchupFactor = 1 + (angleToRemte - MAX REMOTE ANGLE);
+
+bool distanceCatchup = distanceToRemote > MAX_REMOTE_DISTANCE;
+bool angleCatchUp = angleToRemote > MAX REMOTE_ANGLE;
+
+if (distanceCatchup && remoteCollision)
+	RB.position = remotePosition;
+	
+if (angleCatchUp && remoteCollision)
+	RB. rotation = remoteRotation;
+```
+
+I increased the send rate (amount of packages sent per second) and SerializationRate (OnSerialize Ticks per second) to be higher (SendRate was 20 and SerializationRate was 10).
+
+```c#
+private const int SEND_RATE = 40;
+private const int SERIALIZATION_RATE = 20;
+```
+
+```c#
+PhotonNetwork.SendRate = SEND_RATE;
+PhotonNetwork.SerializationRate = SERIALIZATION_RATE;
+```
+
+**The result (Low to high lag from left to right)**
+
+{% capture carousel_images %}
+../assets/gif/blog/2d-multiplayer-game/state_sync_distancebased_no_lag.gif
+../assets/gif/blog/2d-multiplayer-game/state_sync_distancebased_average_lag.gif
+../assets/gif/blog/2d-multiplayer-game/state_sync_distancebased_high_lag.gif
+{% endcapture %}
+{% include elements/carousel.html %}
+
+## References
+
+- Bernier, Y. W. (2019, April 20). Source Multiplayer Networking. Retrieved from Valve Developer Community: https://developer.valvesoftware.com/wiki/Source_Multiplayer_Networking
+- Fiedler, G. (2018, oktober 2). Networking for Physics Programmers.
+- Aronson, J. (1997, September 19). Dead Reckoning: Latency Hiding for Networked Games. Retrieved from Gamasutra: https://www.gamasutra.com/view/feature/131638/dead_reckoning_latency_hiding_for_.php
+- Rivenes, L. (2016, juni 21). What is network jitter? Retrieved from datapath.io: https://datapath.io/resources/blog/what-is-network-jitter/
