@@ -117,3 +117,77 @@ The way this is implemented is pretty easy. All you do is create a prefab of you
 ## The Bootstrap function
 
 Using C# attributes, Unity provides a [RuntimeInitializeOnLoadMethodAttribute](https://docs.unity3d.com/ScriptReference/RuntimeInitializeOnLoadMethodAttribute.html) class. This attribute class is applicable to a function. This function will be called after Awake or based on the given [RuntimeInitializeLoadType](https://docs.unity3d.com/ScriptReference/RuntimeInitializeLoadType.html) value, based on the overloaded constructor you want to use. Using this attribute you can create a simple boot function that is executed only once during the whole application lifecycle and creates all managers/systems/services that you will need. This avoids the duplication conflict:
+
+![with_bootstrap](../assets/img/blog/case-against-singletons/with_bootstrap.png)
+
+An example of this can be a SystemBootstrap class with only one bootstrap function:
+
+{%- gist de657917b7e24062907eeeec9b81b69f %}
+
+Registering a system behaviour will load the prefab from a resources folder and use it to instantiate a copy in the active scene.
+
+{%- gist 710fc1216e9ce68dcd3e132b4f76160c %}
+
+The reference to the system behaviour component is added to a dictionary to provide other scripts with global availability of the system.
+
+{%- gist 684c6e90956eef2a0492797bf57d2315 %}
+
+Interacting with a scene switch system would then be done like this:
+
+{%- gist bf3e6b0b159452a683c430c2b50d8cfa %}
+
+In addition to the fact that you will have to provide a resources folder with the different system prefabs, you will have to deal with the fact that, if not configured, **all** systems are created by default when the application starts. This might be annoying in some situations when you simply need to test a feature inside a test scene.
+
+## The bootstrap/initialization scene
+
+Another method which uses the same principle as the bootstrap function is a bootstrap or initialization scene. This scene will contain all persistent game objects that need to be created when the application is started.
+
+You can use an editor only script to load this scene if it isn’t already. This way you can decide on whether you want your systems in your test scene or not.
+
+{%- gist 46ba7f91a15ba1ad615000eb6474c281 %}
+
+## Scriptable Object Event System
+
+There is another alternative, which solves many of the stated problems and has, as far as i have been able to test, only one downside. You can use a Scriptable Object Event System, in this case, for the purpose of providing a way of communication between manager and Actor behaviours as far as I can see it. You create channels (e.g. class SceneLoadEventChannel : ScriptableObject) that contain only two things. An event containing the arguments necessary for the channel to work and a function that raises the event.
+
+{%- gist 053550a7ed37ef3e2e5a0280a8b720da %}
+
+A manager can listen to this channel through subscription and Actor behaviours can raise events to let the manager know something has to be managed.
+
+{%- gist 8f0b795f3d2a160ff21e5ae9318070b0 %}
+
+{%- gist d118d606598bfb8256a23ded83ec667c %}
+
+The nice thing about this relationship is that the channel creates a loose connection between manager and actor. A manager doesn’t have to be in the scene when an event is raised as part of some action an actor is doing. In addition to this, channels are easily created and referenced since the scriptable object is a project asset which can be referenced from anywhere.
+
+The downside however is that interaction between manager and actors is limited to raising events.
+
+Shared data will have to be stored in things like scriptable objects to provide actors with management information when necessary (e.g. whether a popup is active or audio is playing).
+
+## Conclusion
+
+The default implementation of a singleton in Unity provides the developer with a lot of unnecessary challenges. Flags like appIsQuitting and isDuplicate don’t fix the underlying problems like script execution order, order of execution for event functions and the way Unity handles the lifecycle of game objects. Luckily, alternative solutions to this problem exist.
+
+Lazy initialization provides the developer with the opportunity to create singleton objects on demand, solving the problem of rigid connections and order of execution, but needs to use the notorious Resources folder to provide the necessary functionality of editor exposed fields.
+
+The bootstrap function provides the developer with the option to create all singleton objects at boot time and only once, solving the issue of duplication when returning to the starting scene. It does also need a Resource folder to provide it with the necessary resources to Instantiate these singleton objects making it a little less attractive.
+
+The bootstrap/initialization scene is also very clear in solving the issue of duplication of singleton objects. It does this by grouping the necessary systems inside an “initialization or bootstrap” scene, which is used to start your application from, but can also be loaded into a test scene if necessary.
+
+Lastly there is the Scriptable Object Event System approach where no singleton pattern is used, but channels create a loose connection between managers and actors, where the managers listens for events or requests and the actors can raise an event or request to make the managers do its job. The downside to this approach is that management data can not be exposed through the singleton instance and thus needs to be shared in some other way (e.g. scriptable objects).
+
+My conclusion therefore is: There is no one solution, there are just good alternatives.
+
+## References
+
+1. Benjamin van der Wolf. “System Bootstrapping” Accessed January 28, 2021. https://github.com/Bvanderwolf/BWolfPackages
+2. Dino Fejzagić. “service locator” Accessed January 28, 2021. https://medium.com/medialesson/simple-service-locator-for-your-unity-project-40e317aad307
+3. Goodgulf281. “github - Singleton” Accessed January 28, 2021. https://github.com/Goodgulf281/Unity-Formation-Movement/blob/master/Scripts/Utilities/Singleton.cs
+4. Unity. “Execution order for event functions” Accessed January 28, 2021. https://docs.unity3d.com/Manual/ExecutionOrder.html
+5. Unity. “Script execution order” Accessed January 28, 2021. https://docs.unity3d.com/Manual/class-MonoManager.html
+6. Unity. “Anatomy of a Script File” Accessed January 28, 2021. https://docs.unity3d.com/Manual/CreatingAndUsingScripts.html
+7. Microsoft. “Lazy class” Accessed January 28, 2021. https://docs.microsoft.com/en-us/dotnet/api/system.lazy-1?view=net-5.0
+8. Unity. “Resources folder”Accessed January 28, 2021. https://docs.unity3d.com/Manual/BestPracticeUnderstandingPerformanceInUnity6.html
+9. Unity. “RuntimeInitializeOnLoadAttribute” Accessed January 28, 2021. https://docs.unity3d.com/ScriptReference/RuntimeInitializeOnLoadMethodAttribute.html
+10. Unity. “RuntimeInitializeLoadType” Accessed January 28, 2021. https://docs.unity3d.com/ScriptReference/RuntimeInitializeLoadType.html
+11. Unity. “Scriptable Object Event System channels” Accessed January 28, 2021 https://www.youtube.com/watch?v=ukE73ifSrTM&list=PLX2vGYjWbI0S6CnkDm0AwVgA6E6L_vJNf&index=9&t=2324s
