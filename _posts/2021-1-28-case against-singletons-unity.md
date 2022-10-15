@@ -180,14 +180,14 @@ My conclusion therefore is: There is no one solution, there are just good altern
 
 ## References
 
-1. Benjamin van der Wolf. “System Bootstrapping” Accessed January 28, 2021. https://github.com/Bvanderwolf/BWolfPackages
-2. Dino Fejzagić. “service locator” Accessed January 28, 2021. https://medium.com/medialesson/simple-service-locator-for-your-unity-project-40e317aad307
-3. Goodgulf281. “github - Singleton” Accessed January 28, 2021. https://github.com/Goodgulf281/Unity-Formation-Movement/blob/master/Scripts/Utilities/Singleton.cs
-4. Unity. “Execution order for event functions” Accessed January 28, 2021. https://docs.unity3d.com/Manual/ExecutionOrder.html
-5. Unity. “Script execution order” Accessed January 28, 2021. https://docs.unity3d.com/Manual/class-MonoManager.html
-6. Unity. “Anatomy of a Script File” Accessed January 28, 2021. https://docs.unity3d.com/Manual/CreatingAndUsingScripts.html
-7. Microsoft. “Lazy class” Accessed January 28, 2021. https://docs.microsoft.com/en-us/dotnet/api/system.lazy-1?view=net-5.0
-8. Unity. “Resources folder”Accessed January 28, 2021. https://docs.unity3d.com/Manual/BestPracticeUnderstandingPerformanceInUnity6.html
-9. Unity. “RuntimeInitializeOnLoadAttribute” Accessed January 28, 2021. https://docs.unity3d.com/ScriptReference/RuntimeInitializeOnLoadMethodAttribute.html
-10. Unity. “RuntimeInitializeLoadType” Accessed January 28, 2021. https://docs.unity3d.com/ScriptReference/RuntimeInitializeLoadType.html
-11. Unity. “Scriptable Object Event System channels” Accessed January 28, 2021 https://www.youtube.com/watch?v=ukE73ifSrTM&list=PLX2vGYjWbI0S6CnkDm0AwVgA6E6L_vJNf&index=9&t=2324s
+1. Benjamin van der Wolf. “System Bootstrapping” Accessed January 28, 2021 @ [github](https://github.com/Bvanderwolf/BWolfPackages)
+2. Dino Fejzagić. “service locator” Accessed January 28, 2021 @ [medium.com](https://medium.com/medialesson/simple-service-locator-for-your-unity-project-40e317aad307)
+3. Goodgulf281. “github - Singleton” Accessed January 28, 2021 @ [github](https://github.com/Goodgulf281/Unity-Formation-Movement/blob/master/Scripts/Utilities/Singleton.cs)
+4. Unity. “Execution order for event functions” Accessed January 28, 2021 @ [unity documentation](https://docs.unity3d.com/Manual/ExecutionOrder.html)
+5. Unity. “Script execution order” Accessed January 28, 2021 @ [unity documentation](https://docs.unity3d.com/Manual/class-MonoManager.html)
+6. Unity. “Anatomy of a Script File” Accessed January 28, 2021 @ [unity documentation](https://docs.unity3d.com/Manual/CreatingAndUsingScripts.html)
+7. Microsoft. “Lazy class” Accessed January 28, 2021 @ [microsoft documentation](https://docs.microsoft.com/en-us/dotnet/api/system.lazy-1?view=net-5.0)
+8. Unity. “Resources folder”Accessed January 28, 2021 @ [unity documentation](https://docs.unity3d.com/Manual/BestPracticeUnderstandingPerformanceInUnity6.html)
+9. Unity. “RuntimeInitializeOnLoadAttribute” Accessed January 28, 2021 @ [unity documentation](https://docs.unity3d.com/ScriptReference/RuntimeInitializeOnLoadMethodAttribute.html)
+10. Unity. “RuntimeInitializeLoadType” Accessed January 28, 2021 @ [unity documentation](https://docs.unity3d.com/ScriptReference/RuntimeInitializeLoadType.html)
+11. Unity. “Scriptable Object Event System channels” Accessed January 28, 2021 @ [youtube](https://www.youtube.com/watch?v=ukE73ifSrTM&list=PLX2vGYjWbI0S6CnkDm0AwVgA6E6L_vJNf&index=9&t=2324s)
