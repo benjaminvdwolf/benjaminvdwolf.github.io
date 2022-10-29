@@ -23,7 +23,7 @@ nav_exclude:                                            # The following paths ar
 ### Author Info ###
 author:
   name              : Benjamin van der Wolf
-  image             : author_image.jpg
+  image             : assets/img/profile/front.jpg
 # behance           : benjaminvdwolf
 # dribbble          : your_username
   email             : benjaminvanderwolf@gmail.com
