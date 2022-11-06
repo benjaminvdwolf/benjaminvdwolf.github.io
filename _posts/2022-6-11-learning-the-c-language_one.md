@@ -8,12 +8,10 @@ description: In this short blog post I describe my learning of the C programming
 
 As a C# programmer you are not always aware of how much the language does for you. Starting with C has made me realize how much tedious tasks there actually are during development if not handled for you.
 
-In this blog post I want to talk about four concepts/tools that I think C# makes easier when compared to C.
+In this blog post I want to talk about concepts/tools that I think C# makes easier when compared to C. Part one will be about:
 
-1. Null Termination
-2. Malloc and free vs the **new** keyword
-3. Makefile (re)linking vs C# compilation
-4. Pointers vs classes/structs
+- Null Termination
+- Malloc and free vs the **new** keyword
 
 At this point I have been programming in C for about 2 to 3 months so some of the information I am giving might not be complete or misses some nuance. If this might be the case, please send me a message on [LinkedIn](https://www.linkedin.com/in/benjamin-van-der-wolf-742305160) or [email me](mailto:benjaminvanderwolf@gmail.com). I am always willing to learn more.
 
