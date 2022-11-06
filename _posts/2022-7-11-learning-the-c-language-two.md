@@ -2,7 +2,7 @@
 title: Learning the C language (Part 2)
 tags: [C, Linux, Datastructures]
 style: border
-color: light
+color: primary
 description: In this short blog post I describe my learning of the C programming language as a consequence of me starting a new study at the Amsterdam Codam Coding College. This from the perspective of a C# developer.
 ---
 

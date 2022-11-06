@@ -1,8 +1,8 @@
 ---
 title: Creating a 2D Multiplayer Racing Game
 tags: [C#, Unity, Multiplayer]
-style: border	
-color: dark
+style: fill
+color: danger
 description: Creation of a 2D multiplayer game using the Photon Unity3D Networking Framework to research lag, packet loss compensation and desync-avoidance.
 ---
 

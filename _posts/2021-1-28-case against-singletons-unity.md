@@ -1,8 +1,8 @@
 ---
 title: A case against bad MonoBehaviour Singletons in the Unity Game Engine
 tags: [C#, Unity, Singleton, Design Patterns]
-style: fill	
-color: dark
+style: fill
+color: info
 description: In this essay I will give a short introduction of the singleton pattern, lay out it’s basic implementations and then argue why I think its short term ease of use is not worth the variety of problems it causes in later stages of development.
 ---
 
