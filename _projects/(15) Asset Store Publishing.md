@@ -1,0 +1,4 @@
+- Connection Status
+- Minigame Cups and balls
+- Permission Management
+- Managed Singletons
