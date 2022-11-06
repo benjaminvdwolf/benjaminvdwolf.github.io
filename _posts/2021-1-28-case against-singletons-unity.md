@@ -6,8 +6,6 @@ color: dark
 description: In this essay I will give a short introduction of the singleton pattern, lay out it’s basic implementations and then argue why I think its short term ease of use is not worth the variety of problems it causes in later stages of development.
 ---
 
-# A case against bad MonoBehaviour Singletons in the Unity Game Engine
-
 During my work as a game developer in the Unity Game Engine, I have used a certain design pattern more so than any other. The Singleton Pattern is probably one of the easiest patterns out there. It is part of the category of creational patterns, meaning it is a pattern related to the creation of objects.
 
 I have found, during my work, that there are some serious problems when using this pattern together with Unity’s MonoBehaviour class. In this essay I will give a short introduction of the singleton pattern, lay out it’s basic implementations and then argue why I think its short term ease of use is not worth the variety of problems it causes in later stages of development.

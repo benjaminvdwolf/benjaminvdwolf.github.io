@@ -6,8 +6,6 @@ color: dark
 description: Creation of a 2D multiplayer game using the Photon Unity3D Networking Framework to research lag, packet loss compensation and desync-avoidance.
 ---
 
-# Creating a 2D Multiplayer Racing Game
-
 Source: [github](https://github.com/Bvanderwolf/MultiplayerRacing/tree/master/MultiplayerRacer/Assets)
 
 How do I create a 2d multiplayer racing game with lag and packet loss compensation and desync-avoidance? To find this out I will take a look at the Photon Unity3D Networking Framework and create a project using Photon for the Unity Engine, to research this very topic.
