@@ -21,11 +21,11 @@ One of the first things you will encounter when programming in C are Segmentatio
 
 *Core Dump/Segmentation fault is a specific kind of error caused by accessing memory that “does not belong to you.”* 
 
-So, why do we not get this error in C#? In my opinion, this is because of the 'Length' property and Count for ICollection implementations. (Also, thank you  [IndexOutOfRangeException](https://learn.microsoft.com/en-us/dotnet/api/system.indexoutofrangeexception?view=net-6.0))
+So, why do we not get this error in C#? In my opinion, this is because of the 'Length' property and Count for ICollection implementations (Also, thank you  [IndexOutOfRangeException](https://learn.microsoft.com/en-us/dotnet/api/system.indexoutofrangeexception?view=net-6.0)).
 
 I got so used to being able to use Length and Count for all my iterations that I didn't even think about what problem they actually solve.
 
-Every enumerable collection of memory needs some sort of way to indicate an end. Otherwise, separate memorys can be accessed. When you use the **new** keyword in C# to create an Array, the Length is stored for you as a class member. C doesn't do this. This means, a different concept has to be used to provide safe iteration. Lets take a look at this code snippet:
+Every enumerable collection of memory needs some sort of way to indicate an end. Otherwise, separate memory can be accessed. When you use the **new** keyword in C# to create an Array, the Length is stored for you as a class member. C doesn't do this. This means, a different concept has to be used to provide safe iteration. Lets take a look at this code snippet:
 
 {%- gist 20969364d1aea7b5ded3a112825a41ff %}
 
