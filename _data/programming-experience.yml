@@ -11,7 +11,7 @@
   color: success
 
 - name: C
-  percentage: 30
+  percentage: 40
   color: info
 
 - name: Kotlin
