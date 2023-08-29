@@ -2,17 +2,17 @@
   percentage: 90
   color: danger
 
-- name: Javascript
+- name: C
   percentage: 50
+  color: info
+
+- name: Javascript
+  percentage: 30
   color: warning
 
 - name: PHP
-  percentage: 40
+  percentage: 30
   color: success
-
-- name: C
-  percentage: 40
-  color: info
 
 - name: Kotlin
   percentage: 20
