@@ -2,8 +2,12 @@
   percentage: 90
   color: danger
 
+- name: Artificial Intelligence
+  percentage: 60
+  color: secondary
+
 - name: UML
-  percentage: 70
+  percentage: 60
   color: warning
 
 - name: Version Control
